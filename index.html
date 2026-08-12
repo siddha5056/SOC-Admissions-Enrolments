@@ -2824,6 +2824,21 @@ function css() {
     @media (prefers-reduced-motion: reduce){ .reveal,.pop,.accent-bar{ animation:none !important; } .person-card:hover{ transform:none; } }
   `;
 }
-ReactDOM.createRoot(document.getElementById("root")).render(/*#__PURE__*/React.createElement(App, null));</script>
+async function startHub() {
+  try {
+    await LS.init();
+  } catch (err) {
+    console.error("Unable to initialise shared Hub data:", err);
+  }
+
+  ReactDOM.createRoot(
+    document.getElementById("root")
+  ).render(
+    React.createElement(App, null)
+  );
+}
+
+startHub();
+</script>
 </body>
 </html>
