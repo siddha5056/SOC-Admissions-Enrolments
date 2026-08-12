@@ -55,11 +55,21 @@ module.exports = async function handler(req, res) {
           ? JSON.parse(req.body)
           : req.body;
 
-      if (!body || !body.data || typeof body.data !== 'object') {
-        return res.status(400).json({
-          error: 'Invalid Hub data'
-        });
-      }
+     if (!body || !Object.prototype.hasOwnProperty.call(body, 'data')) {
+  return res.status(400).json({
+    error: 'Invalid Hub data'
+  });
+}
+
+if (
+  body.data === null ||
+  Array.isArray(body.data) ||
+  typeof body.data !== 'object'
+) {
+  return res.status(400).json({
+    error: 'Invalid Hub data'
+  });
+}
 
       const data = JSON.stringify(body.data);
 
