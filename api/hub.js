@@ -256,18 +256,31 @@ module.exports = async function handler(req, res) {
       // SIGN OUT
       // =========================================================
 
-      case 'signOut': {
-        const day = getDay(body.dk);
+      case 'editAttendance': {
+  const day = getDay(body.dk);
 
-        if (day.records[body.id]) {
-          day.records[body.id].outAt =
-            body.outAt;
+  if (!body.id) {
+    return res.status(400).json({
+      error: 'Staff member is required'
+    });
+  }
 
-          changed = true;
-        }
+  const existing = day.records[body.id] || {
+    activities: []
+  };
 
-        break;
-      }
+  day.records[body.id] = {
+    ...existing,
+    inAt: body.inAt || null,
+    outAt: body.outAt || null,
+    activities: existing.activities || [],
+    managerCorrected: true,
+    correctedAt: new Date().toISOString()
+  };
+
+  changed = true;
+  break;
+}
 
       // =========================================================
       // ACTIVITIES
