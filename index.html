@@ -539,7 +539,7 @@ const SEED = [{
   intro: "",
   photo: ""
 }];
-const TEAM_GROUPS = [["Admissions & PFF",[["parth","Parth Nair"],["timothy","Timothy Grey"],["faisal","Faisal Mustafa"],["fareena","Fareena Sami"],["azadeh","Azadeh"],["lorie","Oana Hirtopanu"],["nila","Nila"],["stella","Stella (Hui-Jung Lai)","Admissions Officer"],["khaleal","Khaleal Willis","Admissions Officer"],["sahib","Sahib Athwal","Admissions Administrator"]]],["Student Finance & Enrolments",[["omar","Omar Hanifa"],["amal","Amal Mathew","Student Finance & Enrolments"],["inderveer","Inderveer"]]],["Recruitment Team",[["pranav","Pranav Nair","Recruitment and Procurement Lead"],["manisha","Manisha","Sales Manager"],["laxmi","Laxmi","Sales Associate"],["beenish","Beenish Yasmeen","Assistant Sales Associate"],["georgiana","Georgiana Enche","Sales Associate"],["destiny","Destiny-Jade Campbell","Sales Associate"]]]];
+const TEAM_GROUPS = [["Admissions & PFF",[["parth","Parth Nair"],["timothy","Timothy Grey"],["faisal","Faisal Mustafa"],["fareena","Fareena Sami"],["azadeh","Azadeh"],["lorie","Oana Hirtopanu"],["nila","Nila"],["stella","Stella (Hui-Jung Lai)","Admissions Officer"],["khaleal","Khaleal Willis","Admissions Officer"],["sahib","Sahib Athwal","Admissions Administrator"]]],["Recruitment",[["pranav","Pranav Nair","Recruitment and Procurement Lead"],["manisha","Manisha","Sales Manager"],["laxmi","Laxmi","Sales Associate"],["beenish","Beenish Yasmeen","Assistant Sales Associate"],["georgiana","Georgiana Enche","Sales Associate"],["destiny","Destiny-Jade Campbell","Sales Associate"]]],["Student Finance & Enrolments",[["omar","Omar Hanifa"],["amal","Amal Mathew","Student Finance & Enrolments"],["inderveer","Inderveer"]]]];
 const nameKey = n => String(n||"").toLowerCase().replace(/[^a-z0-9]/g,"");
 const matchesMember = (p,m) => p.id===m[0] || nameKey(p.name)===nameKey(m[1]) || (m[0]==="stella" && /stella|hui.*jung.*lai/i.test(p.name));
 const teamOf = p => TEAM_GROUPS.find(g=>g[1].some(m=>matchesMember(p,m)))?.[0] || "Other staff";
@@ -1698,7 +1698,7 @@ function HomeView({
   })) : [...TEAM_GROUPS.map(g=>g[0]),"Other staff"].map(team => {
     const people=filtered.filter(p=>teamOf(p)===team);
     if(team==="Other staff" && !people.length) return null;
-    return React.createElement("section",{key:team,className:"col-span-full mb-4"},React.createElement("h2",{className:"mb-3 text-lg font-bold",style:{color:C.tealDeep}},team),React.createElement("div",{className:"grid grid-cols-1 gap-3 sm:grid-cols-2"},people.map((p,i)=>React.createElement(PersonCard,{
+    return React.createElement("section",{key:team,className:"col-span-full mb-5 overflow-hidden rounded-2xl border",style:{background:"#fff",borderColor:C.line}},React.createElement("div",{className:"flex items-center justify-between gap-3 px-5 py-4",style:{background:C.tealDeep,color:"#fff"}},React.createElement("h2",{className:"text-base font-bold"},team),React.createElement("span",{className:"text-xs font-medium"},people.length+" scheduled · "+people.filter(p=>records[p.id]?.inAt).length+" signed in")),React.createElement("div",{className:"grid grid-cols-1 gap-3 p-4 sm:grid-cols-2"},people.length===0?React.createElement("p",{className:"col-span-full text-sm",style:{color:C.ink2}},"No staff scheduled today"):people.map((p,i)=>React.createElement(PersonCard,{
     key: p.id,
     person: p,
     record: records[p.id],
